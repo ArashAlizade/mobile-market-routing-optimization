@@ -1,0 +1,5 @@
+site_id,name,open,close,service
+A,Midtown,09:00,13:00,120
+B,Corktown,10:00,16:00,120
+C,North End,12:00,17:00,120
+D,Southwest,11:00,17:00,120
