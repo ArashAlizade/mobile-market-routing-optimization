@@ -161,6 +161,7 @@ def feasible_routes(
 # 5. Calculate operating cost in dollars
 # -------------------------------------------------
 
+
 def calculate_route_cost(
     route,
     fixed_vehicle_cost=50.0,
@@ -169,24 +170,33 @@ def calculate_route_cost(
     assumed_speed_mph=25.0
 ):
     """
-    Total route operating cost in USD.
+    Calculate total operating cost in USD.
 
-    Distance is approximated using average speed
-    until real road-network distance data are available.
+    Uses actual OSRM road mileage when available.
+    Otherwise, uses an assumed speed for synthetic tests.
     """
 
+    # 1. Driving time (minutes)
     driving_minutes = route["total_drive_min"]
 
-    distance_miles = (
-        driving_minutes / 60.0
-    ) * assumed_speed_mph
+    # 2. Driving distance (miles)
+    distance_miles = route.get("distance_miles")
 
+    if distance_miles is None:
+        # Fallback for synthetic examples only
+        distance_miles = (
+            driving_minutes / 60.0
+        ) * assumed_speed_mph
+
+    # 3. Total driver duty time (hours)
     duty_hours = route["duty_minutes"] / 60.0
 
+    # 4. Cost components
     fixed_cost = fixed_vehicle_cost
     distance_cost = cost_per_mile * distance_miles
     labor_cost = driver_hourly_rate * duty_hours
 
+    # 5. Total operating cost
     total_cost = (
         fixed_cost
         + distance_cost
@@ -201,6 +211,7 @@ def calculate_route_cost(
         "distance_miles": distance_miles,
         "duty_hours": duty_hours
     }
+
 
 
 # -------------------------------------------------
