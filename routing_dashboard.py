@@ -18,7 +18,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from src.routes import feasible_routes, clock
-from src.milp_solver import optimize_route_cover_milp
+from src.Milp_solver import optimize_route_cover_milp
 
 BASE = Path(__file__).resolve().parent
 OSRM = "https://router.project-osrm.org"
